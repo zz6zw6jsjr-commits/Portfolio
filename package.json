@@ -1,0 +1,23 @@
+{
+  "name": "anika-sharma-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Clean, editorial personal portfolio for Anika Sharma — Student Developer & Quantitative Alpha Researcher",
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 3000",
+    "serve": "python3 -m http.server 3000",
+    "start": "python3 -m http.server 3000"
+  },
+  "keywords": [
+    "portfolio",
+    "editorial-design",
+    "frontend",
+    "quantitative-finance",
+    "worldquant-brain",
+    "clean-code"
+  ],
+  "author": "Anika Sharma",
+  "license": "MIT"
+}
+
