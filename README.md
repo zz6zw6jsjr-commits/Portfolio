@@ -1,37 +1,19 @@
-# Anika Sharma — Personal Portfolio & Research Showcase
+# Anika Sharma — Pure Vanilla HTML & CSS Portfolio
 
-An editorial, responsive, craft-focused personal portfolio website designed for a student developer exploring frontend engineering, quantitative alpha research on **WorldQuant BRAIN**, and disciplined software craftsmanship.
+A modern, responsive, editorial personal portfolio website built with **100% pure vanilla HTML5 and CSS3**. Zero JavaScript required, zero npm dependencies, and zero build steps.
 
 ---
 
-## 🎨 Visual Identity & Design System
-
-The visual design is inspired by high-end typography publications, scientific journals, and developer portfolios:
+## 🎨 Design Philosophy & Color Palette
 
 - **Warm Off-White Canvas (`#F5F1E8`):** Tactile paper tone providing natural contrast without harsh screen glare.
-- **Deep Slate/Blue-Green Text (`#233940`):** High legibility and contrast meeting WCAG AA standards.
+- **Deep Slate / Dark Blue-Green Text (`#233940`):** High legibility and contrast meeting WCAG AA standards.
 - **Terracotta Accent (`#CB593F`):** Warm accent for primary actions, badges, and focal points.
-- **Forest Green Accent (`#385451`):** Grounded secondary accent for quantitative metrics, status indicators, and live tags.
-- **Editorial Typography Pairing:**
-  - **Headings:** `Fraunces` — dynamic, elegant serif with contemporary editorial weight.
-  - **Body:** `DM Sans` — clear, approachable, legible grotesque sans-serif.
-  - **Technical Labels & Data:** `DM Mono` — structured monospace for code, metrics, and tags.
-
----
-
-## 🚀 Quick Start / How to Run
-
-Because this site is built using modern web standards (Semantic HTML5, CSS Custom Properties, and native ES Modules), it requires **zero build steps** and runs instantly.
-
-### Running with Python (Recommended & Built-in):
-```bash
-# In the portfolio root directory:
-python3 -m http.server 3000
-```
-Then open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### Running with VS Code Live Server:
-Right-click `index.html` and select **"Open with Live Server"**.
+- **Forest Green Accent (`#385451`):** Secondary accent for quantitative metrics, status indicators, and live tags.
+- **Editorial Typography:**
+  - **Headings:** `Fraunces` (Editorial serif)
+  - **Body:** `DM Sans` (Clean modern sans-serif)
+  - **Technical Labels & Data:** `DM Mono` (Monospace for code and metrics)
 
 ---
 
@@ -39,79 +21,37 @@ Right-click `index.html` and select **"Open with Live Server"**.
 
 ```
 Portfolio/
-├── index.html                 # Semantic, accessible HTML structure
-├── package.json               # Project manifest & npm scripts
-├── README.md                  # Documentation and customization guide
-├── public/
-│   └── favicon.svg            # Custom SVG monogram favicon (#CB593F & #233940)
-└── src/
-    ├── main.js                # Modular JS: Navigation, Alpha simulator, Modals, Clipboard
-    ├── data/
-    │   └── portfolioData.js   # ⭐ Centralized single-source-of-truth data configuration
-    └── styles/
-        ├── main.css           # Master stylesheet entry point
-        ├── variables.css      # Design tokens (colors, fonts, spacing, shadows)
-        ├── reset.css          # Modern CSS reset & focus states
-        ├── typography.css     # Fraunces / DM Sans / DM Mono typographic hierarchy
-        ├── layout.css         # Responsive container, sticky nav, mobile drawer
-        ├── components.css     # Buttons, editorial hero specimen, cards, forms, modals
-        └── animations.css     # Subtle micro-interactions and intersection reveals
+├── index.html       # Complete semantic HTML5 structure with all content
+├── style.css        # Clean, modular CSS (Tokens, Grid, Typography, Components)
+├── favicon.svg      # Editorial monogram vector favicon
+└── README.md        # Documentation and customization guide
 ```
 
 ---
 
-## ⚙️ Customization Guide
+## 🚀 How to Run & View
 
-All personal information, project descriptions, skills, and links can be customized in one single file:
-👉 **`src/data/portfolioData.js`**
+Because this website uses 100% pure HTML and CSS:
 
-### 1. Update Bio & Headline
-Open `src/data/portfolioData.js` and modify the `personal` object:
-```javascript
-personal: {
-  name: "Your Name",
-  role: "Your Role / Degree",
-  location: "Your City",
-  headline: "Building at the intersection of code, data & markets.",
-  shortBio: "..."
-}
+### Option 1: Double Click `index.html`
+Simply double-click `index.html` in your file explorer / macOS Finder. It opens instantly in your default web browser!
+
+### Option 2: Run with Python (Optional Local Server)
+```bash
+python3 -m http.server 3000
 ```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 2. Update Contact Details & Links
-In `src/data/portfolioData.js`:
-```javascript
-contact: {
-  email: "your.name@example.com",
-  links: [
-    { platform: "GitHub", handle: "github.com/yourusername", url: "https://github.com/..." },
-    { platform: "LinkedIn", handle: "linkedin.com/in/yourusername", url: "https://linkedin.com/in/..." }
-  ]
-}
-```
-
-### 3. Add or Edit Projects & Alphas
-Modify the `projects` array in `src/data/portfolioData.js` to add your own repositories or WorldQuant BRAIN alphas.
+### Option 3: VS Code Live Server
+Right-click `index.html` in VS Code and click **"Open with Live Server"**.
 
 ---
 
-## 🧪 Interactive Highlights
+## ✏️ How to Customize
 
-1. **WorldQuant BRAIN Alpha Specimen & Simulator:**
-   - Features a real formula: `rank(ts_decay_linear(returns(close, 5), d)) - rank(vwap / close)`.
-   - Users can drag the **Linear Decay Window** slider (4d to 28d) to dynamically watch simulated Sharpe, Fitness, Turnover, and the SVG equity curve recalculate in real time.
-2. **Project Deep-Dive Modals:**
-   - Click "Inspect Details" or "Inspect Methodology" on any project card to view an accessible breakdown of engineering decisions, backtest assumptions, and git conventions.
-3. **One-Click Email Copy with Toast Notification:**
-   - Click "Copy Email" to copy the email address to your clipboard with non-intrusive visual confirmation.
-4. **Accessible Navigation:**
-   - Smooth scrolling, sticky navigation with active section scroll-spy, and a fully keyboard-accessible mobile drawer.
-
----
-
-## ♿ Accessibility & Performance
-
-- **WCAG AA Compliant:** High-contrast color ratios between `#233940`, `#385451`, `#CB593F`, and `#F5F1E8`.
-- **Keyboard Navigable:** Visible `:focus-visible` ring indicators, `aria-expanded` toggles, and Escape key handling for dialogs and drawers.
-- **Prefers-Reduced-Motion:** Respects operating system motion reduction settings.
-- **Lightweight & Fast:** Zero heavy framework runtimes for sub-second page loads.
-
+All content is directly editable in **`index.html`**:
+- **Personal Details & Bio:** Edit the Hero section (`<h1 class="hero-headline">` and `<p class="lead-text">`).
+- **Projects & Research:** Edit the project cards in `#projects`. Clickable deep dives use semantic `<details>` and `<summary>` tags that expand without requiring JavaScript!
+- **Skills:** Add or modify skills in the `#skills` section.
+- **Contact Email & Links:** Update the email address and your GitHub / LinkedIn links in the `#contact` section.
+- **Colors & Spacing:** Easily adjust design variables at the top of **`style.css`** under `:root`.
