@@ -1,16 +1,28 @@
 /**
  * PORTFOLIO APPLICATION LOGIC & PROGRESSIVE ENHANCEMENT
  * ====================================================
+ * Universal compatibility (works with ES Modules and traditional script tags).
  * Coordinates navigation, interactive alpha simulator, project modal,
- * email clipboard copy, and accessibility features.
+ * email clipboard copy, data-binding, and accessibility features.
  */
 
-import { portfolioData } from './data/portfolioData.js';
+// Fallback import if loaded via module bundler; otherwise reads from window.portfolioData
+let data = (typeof window !== 'undefined' && window.portfolioData) ? window.portfolioData : null;
 
-document.addEventListener('DOMContentLoaded', () => {
+function getPortfolioData() {
+  if (data) return data;
+  if (typeof window !== 'undefined' && window.portfolioData) {
+    data = window.portfolioData;
+    return data;
+  }
+  return null;
+}
+
+function initApp() {
   // Mark document as JS-ready for subtle scroll reveals
   document.documentElement.classList.add('js-ready');
 
+  syncDataToDOM();
   initNavigation();
   initAlphaSimulator();
   initClipboard();
@@ -19,7 +31,38 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollSpy();
   initIntersectionReveals();
   initBackToTop();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+
+/**
+ * Synchronize Data from portfolioData to DOM elements
+ * Ensures editing src/data/portfolioData.js updates all matching elements!
+ */
+function syncDataToDOM() {
+  const pData = getPortfolioData();
+  if (!pData) return;
+
+  // Sync email
+  const emailEls = document.querySelectorAll('[data-bind-email]');
+  emailEls.forEach(el => {
+    el.textContent = pData.contact.email;
+  });
+
+  const emailLinks = document.querySelectorAll('[data-bind-email-link]');
+  emailLinks.forEach(link => {
+    link.setAttribute('href', `mailto:${pData.contact.email}`);
+  });
+
+  const copyEmailBtns = document.querySelectorAll('[data-copy-email]');
+  copyEmailBtns.forEach(btn => {
+    btn.setAttribute('data-copy-text', pData.contact.email);
+  });
+}
 
 /**
  * Navigation Bar & Mobile Menu Drawer
@@ -27,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initNavigation() {
   const toggleBtn = document.querySelector('.mobile-nav-toggle');
   const drawer = document.querySelector('.mobile-nav-drawer');
-  const navLinks = document.querySelectorAll('.nav-link');
+  const header = document.querySelector('.site-header');
 
   if (!toggleBtn || !drawer) return;
 
@@ -38,34 +81,55 @@ function initNavigation() {
     toggleBtn.setAttribute('aria-expanded', String(shouldOpen));
   }
 
-  toggleBtn.addEventListener('click', () => toggleMenu());
+  toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMenu();
+  });
 
-  navLinks.forEach(link => {
+  // All links inside drawer (including CTA buttons) close the drawer
+  const allDrawerLinks = drawer.querySelectorAll('a');
+  allDrawerLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-      // Smooth close menu on link click
       toggleMenu(false);
-
-      const targetId = link.getAttribute('href');
-      if (targetId && targetId.startsWith('#')) {
-        const targetEl = document.querySelector(targetId);
-        if (targetEl) {
-          e.preventDefault();
-          const headerHeight = document.querySelector('.site-header')?.offsetHeight || 72;
-          const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - headerHeight + 10;
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-          // Update URL hash cleanly
-          history.pushState(null, '', targetId);
-        }
-      }
+      handleAnchorScroll(link, e);
     });
   });
+
+  // Desktop navigation links smooth scroll
+  const desktopLinks = document.querySelectorAll('.site-header .nav-link');
+  desktopLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      handleAnchorScroll(link, e);
+    });
+  });
+
+  function handleAnchorScroll(link, e) {
+    const targetId = link.getAttribute('href');
+    if (targetId && targetId.startsWith('#')) {
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        const headerHeight = header?.offsetHeight || 72;
+        const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - headerHeight + 5;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+        history.pushState(null, '', targetId);
+      }
+    }
+  }
 
   // Close drawer on escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+      toggleMenu(false);
+    }
+  });
+
+  // Close drawer on click outside
+  document.addEventListener('click', (e) => {
+    if (drawer.classList.contains('is-open') && !drawer.contains(e.target) && !toggleBtn.contains(e.target)) {
       toggleMenu(false);
     }
   });
@@ -87,7 +151,6 @@ function initAlphaSimulator() {
 
   if (!slider) return;
 
-  // Base simulation curve coordinates for d = 10
   const basePoints = [
     [0, 52], [25, 48], [50, 42], [75, 46], [100, 36], 
     [125, 30], [150, 34], [175, 24], [200, 20], [225, 22], 
@@ -100,7 +163,6 @@ function initAlphaSimulator() {
     if (formulaDecayParam) formulaDecayParam.textContent = `${decayDays}`;
 
     // Quantitative simulation dynamics:
-    // Higher decay window smooths weights -> lowers turnover, stabilizes Sharpe up to an inflection point
     let sharpe, fitness, turnover;
     if (decayDays <= 12) {
       sharpe = (1.50 + (decayDays - 4) * 0.045).toFixed(2);
@@ -116,7 +178,7 @@ function initAlphaSimulator() {
     if (fitnessDisplay) fitnessDisplay.textContent = fitness;
     if (turnoverDisplay) turnoverDisplay.textContent = `${turnover}%`;
 
-    // Shift sparkline curve slightly to visualize smoothed equity progression
+    // Dynamic SVG curve adjustment
     if (sparklinePolyline) {
       const smoothingFactor = (decayDays - 10) * 0.4;
       const updatedPoints = basePoints.map(([x, y], idx) => {
@@ -127,6 +189,9 @@ function initAlphaSimulator() {
       sparklinePolyline.setAttribute('points', updatedPoints);
     }
   }
+
+  // Initialize immediately on startup with default slider value
+  updateSimulation(slider.value);
 
   slider.addEventListener('input', (e) => {
     updateSimulation(e.target.value);
@@ -153,12 +218,14 @@ function initClipboard() {
 
   copyBtns.forEach(btn => {
     btn.addEventListener('click', async () => {
-      const textToCopy = btn.getAttribute('data-copy-text') || portfolioData.contact.email;
+      const pData = getPortfolioData();
+      const defaultEmail = pData ? pData.contact.email : 'anika.sharma.research@example.com';
+      const textToCopy = btn.getAttribute('data-copy-text') || defaultEmail;
+      
       try {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           await navigator.clipboard.writeText(textToCopy);
         } else {
-          // Fallback
           const tempInput = document.createElement('input');
           tempInput.value = textToCopy;
           document.body.appendChild(tempInput);
@@ -175,110 +242,82 @@ function initClipboard() {
 }
 
 /**
- * Project Deep-Dive Modal
+ * Project Deep-Dive Modal (Data-Driven from portfolioData)
  */
-const projectDetails = {
-  "personal-portfolio": {
-    title: "Personal Portfolio Website — Design & Architecture",
-    badge: "Frontend Engineering",
-    content: `
-      <div style="display:flex; flex-direction:column; gap: 1rem;">
-        <p class="body-muted">
-          This portfolio was designed from the ground up to reflect an authentic, student-developer voice. It deliberately departs from generic purple/dark AI templates, opting instead for a tactile editorial aesthetic inspired by printed developer publications.
-        </p>
-        <div style="background-color: var(--color-bg-subtle); padding: 1rem; border-radius: 4px; border: 1px solid var(--border-subtle);">
-          <h4 style="font-family: var(--font-serif); font-size: 1rem; margin-bottom: 0.5rem; color: var(--color-text-main);">Key Engineering Decisions:</h4>
-          <ul style="font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.6; list-style: disc; padding-left: 1.25rem;">
-            <li><strong>Zero runtime bloat:</strong> Instant rendering without multi-megabyte bundle dependencies.</li>
-            <li><strong>CSS Custom Properties Architecture:</strong> 100% themeable token scale for typography, spacing, colors, and shadows.</li>
-            <li><strong>Responsive fluid scaling:</strong> Uses <code>clamp()</code> for seamless transitions from mobile viewports to ultrawide displays.</li>
-            <li><strong>Centralized Single Source of Truth:</strong> All projects, skills, and bio content configure neatly in <code>portfolioData.js</code>.</li>
-          </ul>
-        </div>
-        <p class="body-muted" style="font-size: 0.875rem;">
-          <strong>Tech Stack:</strong> Semantic HTML5, Modern CSS (Grid & Flexbox), ES6+ JavaScript, Google Fonts (Fraunces, DM Sans, DM Mono).
-        </p>
-      </div>
-    `
-  },
-  "alpha-research": {
-    title: "Quantitative Alpha Research — WorldQuant BRAIN",
-    badge: "WorldQuant BRAIN Lab",
-    content: `
-      <div style="display:flex; flex-direction:column; gap: 1rem;">
-        <p class="body-muted">
-          WorldQuant BRAIN provides an algorithmic simulation environment where researchers formulate quantitative equity signals (alphas) by combining time-series, cross-sectional, and mathematical operators.
-        </p>
-        <div style="background-color: #E7E2D5; padding: 1rem; border-left: 3px solid var(--color-terracotta); border-radius: 0 4px 4px 0; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.5;">
-          <strong>Sample Formula Tested:</strong><br>
-          rank(ts_decay_linear(returns(close, 5), 10)) - rank(vwap / close)
-        </div>
-        <div style="background-color: var(--color-bg-subtle); padding: 1rem; border-radius: 4px; border: 1px solid var(--border-subtle);">
-          <h4 style="font-family: var(--font-serif); font-size: 1rem; margin-bottom: 0.5rem; color: var(--color-text-main);">Experimental Framework & Metrics:</h4>
-          <ul style="font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.6; list-style: disc; padding-left: 1.25rem;">
-            <li><strong>Universe Selection:</strong> Tested primarily on liquid universes (e.g. US Equities TOP3000) to ensure execution viability.</li>
-            <li><strong>Turnover Management:</strong> Applied linear decay (<code>ts_decay_linear</code>) to balance information ratio against transaction friction.</li>
-            <li><strong>Statistical Validation:</strong> Checked Sharpe ratio (>1.5), Fitness score (>1.2), margin, and maximum drawdown limits.</li>
-            <li><strong>Integrity:</strong> Clear distinction between raw exploratory backtests and validated research submissions.</li>
-          </ul>
-        </div>
-        <p class="body-muted" style="font-size: 0.875rem;">
-          <strong>Focus:</strong> Understanding signal decay, cross-sectional ranking operators, and market neutrality principles.
-        </p>
-      </div>
-    `
-  },
-  "git-workflow": {
-    title: "Git & Development Workflow — Architecture",
-    badge: "Developer Tooling",
-    content: `
-      <div style="display:flex; flex-direction:column; gap: 1rem;">
-        <p class="body-muted">
-          A disciplined development workflow is essential for both software projects and quantitative research notebooks. This project codifies clean repository hygiene, documentation practices, and version control discipline.
-        </p>
-        <div style="background-color: #233940; color: #F5F1E8; padding: 1rem; border-radius: 4px; font-family: var(--font-mono); font-size: 0.775rem; line-height: 1.5;">
-          <span style="color:#6FCF97;">commit convention:</span> feat(alpha): add decay operator to price-volume signal<br>
-          <span style="color:#E2B93B;">branch strategy:</span> main &lt;-- develop &lt;-- feature/decay-smoothing<br>
-          <span style="color:#CB593F;">documentation:</span> clear reproduction steps in README.md
-        </div>
-        <div style="background-color: var(--color-bg-subtle); padding: 1rem; border-radius: 4px; border: 1px solid var(--border-subtle);">
-          <h4 style="font-family: var(--font-serif); font-size: 1rem; margin-bottom: 0.5rem; color: var(--color-text-main);">Core Principles Implemented:</h4>
-          <ul style="font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.6; list-style: disc; padding-left: 1.25rem;">
-            <li><strong>Conventional Commits:</strong> Structured commit logs for automated changelogs and readability.</li>
-            <li><strong>Branch Protection:</strong> Protecting the main branch, enforcing code review practices.</li>
-            <li><strong>Experiment Isolation:</strong> Keeping speculative data models on isolated experiment branches.</li>
-          </ul>
-        </div>
-      </div>
-    `
-  }
-};
-
 function initProjectModals() {
   const modalBackdrop = document.getElementById('project-modal');
   const modalTitle = document.getElementById('modal-project-title');
   const modalBadge = document.getElementById('modal-project-badge');
   const modalContent = document.getElementById('modal-project-content');
   const modalCloseBtn = document.getElementById('modal-close-btn');
+  const modalFooterCloseBtn = document.getElementById('modal-footer-close-btn');
   const triggerBtns = document.querySelectorAll('[data-project-trigger]');
 
   if (!modalBackdrop) return;
 
-  function openModal(projectId) {
-    const data = projectDetails[projectId];
-    if (!data) return;
-
-    if (modalTitle) modalTitle.textContent = data.title;
-    if (modalBadge) modalBadge.textContent = data.badge;
-    if (modalContent) modalContent.innerHTML = data.content;
-
-    modalBackdrop.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-  }
-
   function closeModal() {
     modalBackdrop.classList.remove('is-open');
     document.body.style.overflow = '';
+  }
+
+  function openModal(projectId) {
+    const pData = getPortfolioData();
+    let project = pData ? pData.projects.find(p => p.id === projectId) : null;
+    
+    if (!project) return;
+
+    if (modalTitle) modalTitle.textContent = project.title;
+    if (modalBadge) modalBadge.textContent = project.deepDive?.badge || project.categoryFull || 'Deep Dive';
+
+    let html = `
+      <div style="display:flex; flex-direction:column; gap: 1rem;">
+        <p class="body-muted" style="font-size: 0.95rem;">
+          ${project.deepDive?.summary || project.description}
+        </p>
+    `;
+
+    if (project.deepDive?.sampleFormula) {
+      html += `
+        <div style="background-color: #E7E2D5; padding: 1rem; border-left: 3px solid var(--color-terracotta); border-radius: 0 4px 4px 0; font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.5;">
+          <strong style="color: var(--color-forest);">Tested Alpha Formula:</strong><br>
+          ${project.deepDive.sampleFormula}
+        </div>
+      `;
+    }
+
+    if (project.deepDive?.terminalSpecimen) {
+      html += `
+        <div style="background-color: #233940; color: #F5F1E8; padding: 1rem; border-radius: 4px; font-family: var(--font-mono); font-size: 0.775rem; line-height: 1.6;">
+          ${project.deepDive.terminalSpecimen.map(line => `<div>${line}</div>`).join('')}
+        </div>
+      `;
+    }
+
+    if (project.deepDive?.points && project.deepDive.points.length > 0) {
+      html += `
+        <div style="background-color: var(--color-bg-subtle); padding: 1rem 1.25rem; border-radius: 4px; border: 1px solid var(--border-subtle);">
+          <h4 style="font-family: var(--font-serif); font-size: 1rem; margin-bottom: 0.5rem; color: var(--color-text-main);">Key Framework Principles:</h4>
+          <ul style="font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.6; list-style: disc; padding-left: 1.25rem;">
+            ${project.deepDive.points.map(pt => `<li>${pt}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    if (project.deepDive?.techStack) {
+      html += `
+        <p class="body-muted" style="font-size: 0.85rem; padding-top: 0.5rem; border-top: 1px dashed var(--border-subtle);">
+          <strong>Technologies:</strong> ${project.deepDive.techStack}
+        </p>
+      `;
+    }
+
+    html += `</div>`;
+
+    if (modalContent) modalContent.innerHTML = html;
+
+    modalBackdrop.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
   }
 
   triggerBtns.forEach(btn => {
@@ -291,6 +330,9 @@ function initProjectModals() {
 
   if (modalCloseBtn) {
     modalCloseBtn.addEventListener('click', closeModal);
+  }
+  if (modalFooterCloseBtn) {
+    modalFooterCloseBtn.addEventListener('click', closeModal);
   }
 
   modalBackdrop.addEventListener('click', (e) => {
@@ -311,11 +353,11 @@ function initProjectModals() {
  */
 function initScrollSpy() {
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
+  const navLinks = document.querySelectorAll('.site-header .nav-link');
 
   if (!sections.length || !navLinks.length) return;
 
-  window.addEventListener('scroll', () => {
+  function onScroll() {
     const scrollY = window.pageYOffset;
     const headerHeight = document.querySelector('.site-header')?.offsetHeight || 72;
 
@@ -324,7 +366,7 @@ function initScrollSpy() {
       const sectionTop = current.offsetTop - headerHeight - 40;
       const sectionId = current.getAttribute('id');
 
-      if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
         navLinks.forEach(link => {
           link.classList.remove('active');
           if (link.getAttribute('href') === `#${sectionId}`) {
@@ -333,7 +375,10 @@ function initScrollSpy() {
         });
       }
     });
-  }, { passive: true });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 }
 
 /**
@@ -341,7 +386,12 @@ function initScrollSpy() {
  */
 function initIntersectionReveals() {
   const revealElements = document.querySelectorAll('.reveal-on-scroll');
-  if (!revealElements.length || !('IntersectionObserver' in window)) return;
+  if (!revealElements.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    revealElements.forEach(el => el.classList.add('is-visible'));
+    return;
+  }
 
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
@@ -351,11 +401,19 @@ function initIntersectionReveals() {
       }
     });
   }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -40px 0px'
+    threshold: 0.05,
+    rootMargin: '0px 0px -20px 0px'
   });
 
-  revealElements.forEach(el => observer.observe(el));
+  revealElements.forEach(el => {
+    // If element is already in initial viewport, mark visible immediately
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add('is-visible');
+    } else {
+      observer.observe(el);
+    }
+  });
 }
 
 /**
@@ -371,20 +429,33 @@ function initContactForm() {
     e.preventDefault();
     const nameInput = form.querySelector('[name="name"]');
     const emailInput = form.querySelector('[name="email"]');
+    const subjectInput = form.querySelector('[name="subject"]');
     const messageInput = form.querySelector('[name="message"]');
 
-    if (!nameInput.value || !emailInput.value || !messageInput.value) {
-      alert("Please fill in all fields.");
+    if (!nameInput.value.trim() || !emailInput.value.trim() || !messageInput.value.trim()) {
+      if (feedback) {
+        feedback.textContent = "Please fill in all required fields (Name, Email, and Message).";
+        feedback.style.color = "var(--color-terracotta)";
+        feedback.style.display = "block";
+      }
       return;
     }
 
+    const pData = getPortfolioData();
+    const targetEmail = pData ? pData.contact.email : 'anika.sharma.research@example.com';
+    const encodedSubject = encodeURIComponent(subjectInput.value.trim() || 'Portfolio Inquiry');
+    const encodedBody = encodeURIComponent(`From: ${nameInput.value.trim()} (${emailInput.value.trim()})\n\n${messageInput.value.trim()}`);
+    const mailtoUrl = `mailto:${targetEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+
     if (feedback) {
-      feedback.textContent = `Thank you, ${nameInput.value}! Your message note has been prepared. In the meantime, feel free to email ${portfolioData.contact.email} directly!`;
-      feedback.classList.add('success');
+      feedback.innerHTML = `
+        <strong>Thank you, ${nameInput.value.trim()}!</strong> Your message is ready.<br>
+        <a href="${mailtoUrl}" class="btn btn-sm btn-primary" style="margin-top: 8px; display: inline-flex;">
+          Send Email via Client →
+        </a>
+      `;
+      feedback.className = "form-feedback success";
       form.reset();
-      setTimeout(() => {
-        feedback.classList.remove('success');
-      }, 7000);
     }
   });
 }
@@ -403,4 +474,3 @@ function initBackToTop() {
     });
   });
 }
-

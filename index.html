@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anika Sharma — Student Developer &amp; Quantitative Alpha Researcher</title>
+  
+  <meta name="description" content="Personal portfolio of Anika Sharma. Exploring frontend development, WorldQuant BRAIN quantitative alpha research, and disciplined software craftsmanship.">
+  <meta name="author" content="Anika Sharma">
+  <meta name="theme-color" content="#F5F1E8">
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Anika Sharma — Student Developer &amp; Quantitative Alpha Researcher">
+  <meta property="og:description" content="Building at the intersection of code, data &amp; markets. Exploring frontend engineering and WorldQuant BRAIN alpha modeling.">
+  <meta property="og:image" content="./public/favicon.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./public/favicon.svg">
+  <link rel="apple-touch-icon" href="./public/favicon.svg">
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Modular Stylesheets (Direct link ensures zero @import cascade latency) -->
+  <link rel="stylesheet" href="./src/styles/variables.css">
+  <link rel="stylesheet" href="./src/styles/reset.css">
+  <link rel="stylesheet" href="./src/styles/typography.css">
+  <link rel="stylesheet" href="./src/styles/layout.css">
+  <link rel="stylesheet" href="./src/styles/components.css">
+  <link rel="stylesheet" href="./src/styles/animations.css">
+</head>
+<body id="top">
+
+  <!-- =========================================================================
+       MINIMAL STICKY NAVIGATION BAR
+       ========================================================================= -->
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="#top" class="brand-logo" aria-label="Anika Sharma Home">
+        <span>Anika Sharma</span>
+        <span class="brand-badge">AS // 01</span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#exploring" class="nav-link">Exploring</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="header-cta-group">
+        <div class="status-indicator" title="Current Status">
+          <span class="status-dot"></span>
+          <span>Open to Internships</span>
+        </div>
+
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-nav-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+    <a href="#about" class="nav-link">About</a>
+    <a href="#projects" class="nav-link">Projects</a>
+    <a href="#skills" class="nav-link">Skills</a>
+    <a href="#exploring" class="nav-link">Currently Exploring</a>
+    <a href="#contact" class="nav-link">Contact</a>
+    <div style="padding-top: 1rem;">
+      <a href="#contact" class="btn btn-primary" style="width: 100%;">Get In Touch</a>
+    </div>
+  </div>
+
+  <main role="main">
+
+    <!-- =======================================================================
+         HERO SECTION
+         ======================================================================= -->
+    <section class="section" id="hero" style="padding-top: clamp(2rem, 4vw, 3.5rem);">
+      <div class="container">
+        <div class="hero-grid">
+          
+          <!-- Hero Narrative & CTAs -->
+          <div class="hero-content hero-fade-in">
+            <span class="section-kicker">Student Developer &amp; Researcher</span>
+            <h1 class="hero-headline">Building at the intersection of code, data &amp; markets.</h1>
+            <p class="lead-text">
+              I am an undergraduate student exploring frontend engineering, algorithmic trading concepts, and time-series alpha research on <strong>WorldQuant BRAIN</strong>. Passionate about craftsmanship, mathematics, and building clean web interfaces from first principles.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#projects" class="btn btn-primary">
+                Explore My Work
+                <svg class="btn-icon btn-icon-arrow" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+              </a>
+              <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+            </div>
+
+            <div class="hero-meta-ticker">
+              <span class="ticker-dot"></span>
+              <span><strong>Currently Exploring:</strong> Alpha Signals on BRAIN &amp; Semantic Web Architecture</span>
+            </div>
+          </div>
+
+          <!-- Editorial Technical Specimen (Alpha Card + Interactive Simulator) -->
+          <div class="editorial-specimen hero-fade-in">
+            <div class="specimen-header">
+              <span class="specimen-badge">
+                <span class="specimen-badge-dot"></span>
+                WorldQuant BRAIN • Simulation Lab
+              </span>
+              <span class="mono-label">Universe: US TOP3000</span>
+            </div>
+
+            <div class="specimen-body">
+              <div class="specimen-formula-box" title="WorldQuant BRAIN Alpha Expression">
+                <span class="formula-fn">rank</span>(<span class="formula-fn">ts_decay_linear</span>(<span class="formula-fn">returns</span>(close, 5), <span id="formula-decay-param" class="formula-highlight">10</span>)) - <span class="formula-fn">rank</span>(vwap / close)
+              </div>
+
+              <!-- Sparkline Equity Curve Visualization -->
+              <div>
+                <div style="display:flex; justify-content:space-between; margin-bottom: 4px;">
+                  <span class="mono-label" style="font-size: 0.6875rem;">Simulated Cumulative Returns</span>
+                  <span class="mono-label" style="font-size: 0.6875rem; color: var(--color-forest);">PnL +18.4%</span>
+                </div>
+                <svg class="quant-chart-svg" viewBox="0 0 300 60" fill="none" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="curveGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#385451" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="#385451" stop-opacity="0.0"/>
+                    </linearGradient>
+                  </defs>
+                  <line x1="0" y1="50" x2="300" y2="50" stroke="#DFD9CC" stroke-width="1" stroke-dasharray="3,3" />
+                  <polyline
+                    id="sparkline-line"
+                    class="sparkline-path"
+                    fill="none"
+                    stroke="#385451"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    points="0,52 25,48 50,42 75,46 100,36 125,30 150,34 175,24 200,20 225,22 250,16 275,12 300,8"
+                  />
+                </svg>
+              </div>
+
+              <!-- Simulation Metrics Grid -->
+              <div class="specimen-metrics-grid">
+                <div class="metric-cell">
+                  <span class="metric-cell-label">Sharpe Ratio</span>
+                  <span class="metric-cell-value positive" id="metric-sharpe">1.84</span>
+                </div>
+                <div class="metric-cell">
+                  <span class="metric-cell-label">Fitness</span>
+                  <span class="metric-cell-value positive" id="metric-fitness">1.42</span>
+                </div>
+                <div class="metric-cell">
+                  <span class="metric-cell-label">Turnover</span>
+                  <span class="metric-cell-value" id="metric-turnover">12.6%</span>
+                </div>
+              </div>
+
+              <!-- Interactive Decay Parameter Slider -->
+              <div class="specimen-control">
+                <div class="specimen-control-header">
+                  <span class="mono-label" style="font-size: 0.75rem;">Adjust Linear Decay Window:</span>
+                  <strong id="decay-val-display" style="font-family: var(--font-mono); color: var(--color-terracotta);">10d</strong>
+                </div>
+                <input 
+                  type="range" 
+                  id="alpha-decay-slider" 
+                  min="4" 
+                  max="28" 
+                  value="10" 
+                  step="2"
+                  aria-label="Adjust Linear Decay Window"
+                >
+                <div style="display:flex; justify-content:space-between; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-faint);">
+                  <span>4d (Fast/High Turnover)</span>
+                  <span>28d (Smooth/Low Turnover)</span>
+                </div>
+              </div>
+
+              <div class="specimen-footer">
+                <span>Data: In-Sample Testing</span>
+                <span>Sub-universe: Neutralized</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         ABOUT SECTION
+         ======================================================================= -->
+    <section class="section section-bordered" id="about">
+      <div class="container">
+        
+        <div class="section-header with-meta">
+          <div>
+            <span class="section-kicker">01 // About Me</span>
+            <h2 class="section-title">Curiosity, Analytical Rigor &amp; Craft</h2>
+          </div>
+          <p class="body-muted" style="max-width: 380px;">
+            A student builder's journey driven by continuous experimentation, deep fundamentals, and deliberate practice.
+          </p>
+        </div>
+
+        <div class="about-editorial-grid">
+          
+          <!-- Narrative Story -->
+          <div class="about-story">
+            <p class="lead-text">
+              I am a student fascinated by how simple mathematical rules and clean software architectures can capture complex dynamics — whether in financial markets or intuitive user interfaces.
+            </p>
+            <p class="body-muted">
+              My technical journey began with an innate curiosity about systems: understanding how data flows, how algorithms separate signal from market noise, and how clear digital interfaces communicate complex ideas without cognitive overhead.
+            </p>
+            <p class="body-muted">
+              In quantitative finance, I actively experiment on the <strong>WorldQuant BRAIN</strong> platform, researching mathematical alpha expressions, time-series decay, and portfolio turnover dynamics. I approach every simulation as a learning lab — testing hypotheses systematically and learning from drawdowns.
+            </p>
+            <p class="body-muted">
+              In web development, I believe in mastering fundamentals first: semantic HTML, modern CSS layouts, and modular JavaScript without unnecessary bloat. I strive to write code that is clean, accessible, and structured with intentionality.
+            </p>
+          </div>
+
+          <!-- 3 Principles Cards -->
+          <div class="about-principles">
+            
+            <div class="principle-card reveal-on-scroll">
+              <span class="principle-num">01</span>
+              <div class="principle-content">
+                <h3>First-Principles Thinking</h3>
+                <p>Breaking down complex problems into verifiable components before jumping into code or models. Seeking clarity before complexity.</p>
+              </div>
+            </div>
+
+            <div class="principle-card reveal-on-scroll">
+              <span class="principle-num">02</span>
+              <div class="principle-content">
+                <h3>Analytical Discipline</h3>
+                <p>Treating trading signals and code architecture with equal rigor — validating assumptions, measuring performance, and respecting edge cases.</p>
+              </div>
+            </div>
+
+            <div class="principle-card reveal-on-scroll">
+              <span class="principle-num">03</span>
+              <div class="principle-content">
+                <h3>Continuous Learning Loop</h3>
+                <p>Viewing failed alpha tests and software bugs not as setbacks, but as the clearest empirical feedback for deliberate iteration.</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Fact Banner -->
+        <div class="about-stats-banner reveal-on-scroll">
+          <div class="stat-cell">
+            <span class="stat-cell-label">Current Focus</span>
+            <span class="stat-cell-value">Code &amp; Alpha Modeling</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell-label">Research Platform</span>
+            <span class="stat-cell-value">WorldQuant BRAIN</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell-label">Frontend Ethos</span>
+            <span class="stat-cell-value">Clean &amp; Semantic</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell-label">Growth Mindset</span>
+            <span class="stat-cell-value">Continuous Iteration</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         PROJECTS SECTION
+         ======================================================================= -->
+    <section class="section section-bordered" id="projects">
+      <div class="container">
+        
+        <div class="section-header with-meta">
+          <div>
+            <span class="section-kicker">02 // Selected Works</span>
+            <h2 class="section-title">Projects &amp; Research Labs</h2>
+          </div>
+          <p class="body-muted" style="max-width: 420px;">
+            Hands-on work demonstrating responsive web craftsmanship, quantitative signal exploration, and disciplined version control.
+          </p>
+        </div>
+
+        <div class="grid-3col">
+          
+          <!-- PROJECT 1: Personal Portfolio Website -->
+          <article class="project-card reveal-on-scroll">
+            <div class="project-preview-frame">
+              <div class="preview-design-system">
+                <div class="palette-swatches">
+                  <div class="swatch swatch-1" title="#F5F1E8 Background">BG</div>
+                  <div class="swatch swatch-2" title="#233940 Deep Slate">TXT</div>
+                  <div class="swatch swatch-3" title="#CB593F Terracotta">ACC</div>
+                  <div class="swatch swatch-4" title="#385451 Forest">FRT</div>
+                </div>
+                <div class="specimen-text-preview">
+                  <div style="font-size: 0.6875rem; font-family: var(--font-mono); color: var(--color-terracotta); text-transform: uppercase; margin-bottom: 2px;">Typography Token</div>
+                  <div style="font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.2;">Fraunces &amp; DM Sans</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card-body">
+              <div class="project-meta-top">
+                <span class="project-status-tag live">
+                  <span style="width:5px; height:5px; border-radius:50%; background:currentColor;"></span>
+                  Live &amp; Maintained
+                </span>
+                <span class="mono-label">Frontend</span>
+              </div>
+
+              <h3 class="project-title">Personal Portfolio Website</h3>
+              <p class="project-desc">
+                A bespoke, editorial-inspired portfolio created from first principles. Features a warm off-white palette, Fraunces serif typography, zero bloated frameworks, semantic HTML, and fluid responsive scaling.
+              </p>
+
+              <div class="project-tech-pills">
+                <span class="tag-pill">HTML5</span>
+                <span class="tag-pill">Modern CSS</span>
+                <span class="tag-pill">JavaScript</span>
+                <span class="tag-pill">Responsive</span>
+                <span class="tag-pill">WCAG AA</span>
+              </div>
+
+              <div class="project-actions">
+                <button class="btn btn-secondary btn-sm" data-project-trigger="personal-portfolio">
+                  Inspect Details
+                </button>
+                <a href="#top" class="btn btn-sm" style="color: var(--color-forest); font-family: var(--font-mono);">
+                  Live Site ↑
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROJECT 2: Quantitative Alpha Research -->
+          <article class="project-card reveal-on-scroll">
+            <div class="project-preview-frame">
+              <div class="preview-quant-chart">
+                <div class="quant-meta-row">
+                  <span>ALPHA-09: DECAY MOMENTUM</span>
+                  <span>SHARPE: 1.84</span>
+                </div>
+                <svg class="quant-chart-svg" viewBox="0 0 240 60" fill="none">
+                  <path d="M0,50 Q40,45 80,35 T160,25 T240,10" stroke="#CB593F" stroke-width="2.5" fill="none"/>
+                  <circle cx="240" cy="10" r="3.5" fill="#CB593F" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="project-card-body">
+              <div class="project-meta-top">
+                <span class="project-status-tag research">
+                  <span style="width:5px; height:5px; border-radius:50%; background:currentColor;"></span>
+                  Active BRAIN Lab
+                </span>
+                <span class="mono-label">Quantitative</span>
+              </div>
+
+              <h3 class="project-title">Quantitative Alpha Research</h3>
+              <p class="project-desc">
+                Mathematical modeling and simulation of quantitative trading signals on WorldQuant BRAIN. Explores equity time-series signals, price-volume divergence, decay functions, and turnover penalization across liquid US universes.
+              </p>
+
+              <div class="project-tech-pills">
+                <span class="tag-pill accent-terracotta">WorldQuant BRAIN</span>
+                <span class="tag-pill">Alpha Expressions</span>
+                <span class="tag-pill">Backtesting</span>
+                <span class="tag-pill">Sharpe Ratio</span>
+              </div>
+
+              <div class="project-actions">
+                <button class="btn btn-secondary btn-sm" data-project-trigger="alpha-research">
+                  Inspect Methodology
+                </button>
+                <a href="https://brain.worldquant.com" target="_blank" rel="noopener noreferrer" class="btn btn-sm" style="color: var(--color-terracotta); font-family: var(--font-mono);">
+                  BRAIN Platform ↗
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROJECT 3: Git & Development Workflow -->
+          <article class="project-card reveal-on-scroll">
+            <div class="project-preview-frame">
+              <div class="preview-git-terminal">
+                <div><span class="terminal-prompt">$</span> git log --oneline -n 3</div>
+                <div><span class="terminal-commit">7a9f2c1</span> <span class="terminal-branch">(HEAD -&gt; main)</span> feat(alpha): add decay operator</div>
+                <div><span class="terminal-commit">4b8e10d</span> chore(style): refine clamp typography</div>
+                <div><span class="terminal-commit">1c3a88b</span> docs: update backtesting findings</div>
+              </div>
+            </div>
+
+            <div class="project-card-body">
+              <div class="project-meta-top">
+                <span class="project-status-tag tooling">
+                  <span style="width:5px; height:5px; border-radius:50%; background:currentColor;"></span>
+                  Core Practice
+                </span>
+                <span class="mono-label">Tooling</span>
+              </div>
+
+              <h3 class="project-title">Git &amp; Development Workflow</h3>
+              <p class="project-desc">
+                A disciplined repository framework codifying clean version control practices. Includes Conventional Commits, branch isolation policies, automated linting checks, and documentation standards for reproducible research.
+              </p>
+
+              <div class="project-tech-pills">
+                <span class="tag-pill">Git</span>
+                <span class="tag-pill">GitHub</span>
+                <span class="tag-pill">VS Code</span>
+                <span class="tag-pill">Conventional Commits</span>
+              </div>
+
+              <div class="project-actions">
+                <button class="btn btn-secondary btn-sm" data-project-trigger="git-workflow">
+                  Inspect Workflow
+                </button>
+                <a href="https://github.com/anikasharma" target="_blank" rel="noopener noreferrer" class="btn btn-sm" style="color: var(--color-forest); font-family: var(--font-mono);">
+                  GitHub Profile ↗
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         SKILLS SECTION
+         ======================================================================= -->
+    <section class="section section-bordered" id="skills">
+      <div class="container">
+        
+        <div class="section-header with-meta">
+          <div>
+            <span class="section-kicker">03 // Competencies</span>
+            <h2 class="section-title">Skills &amp; Technical Knowledge</h2>
+          </div>
+          <p class="body-muted" style="max-width: 440px;">
+            Organized honestly by active learning stage — distinguishing fundamental core competencies from areas in active experimentation.
+          </p>
+        </div>
+
+        <div class="skills-wrapper">
+          
+          <!-- Category 1: Frontend -->
+          <div class="skills-category-card reveal-on-scroll">
+            <div class="skills-category-header">
+              <span class="mono-label" style="color: var(--color-terracotta);">Domain 01</span>
+              <h3 class="skills-category-title">Frontend Engineering</h3>
+              <p class="skills-category-desc">Crafting responsive, semantic, and performant web interfaces from first principles.</p>
+            </div>
+
+            <div class="skills-items-grid">
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">HTML5</span>
+                  <span class="skill-item-level">Core Foundation</span>
+                </div>
+                <span class="skill-item-note">Semantic tags, document outline, accessibility tree</span>
+              </div>
+
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">CSS3 &amp; Responsive Layout</span>
+                  <span class="skill-item-level">Core Foundation</span>
+                </div>
+                <span class="skill-item-note">Flexbox, CSS Grid, Custom Properties, clamp scaling</span>
+              </div>
+
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">JavaScript (ES6+)</span>
+                  <span class="skill-item-level" style="color: var(--color-forest); border-color: var(--color-forest-border); background: var(--color-forest-tint);">Actively Learning</span>
+                </div>
+                <span class="skill-item-note">DOM manipulation, modules, event loop, fetch API</span>
+              </div>
+
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">Web Accessibility</span>
+                  <span class="skill-item-level" style="color: var(--color-forest); border-color: var(--color-forest-border); background: var(--color-forest-tint);">Actively Learning</span>
+                </div>
+                <span class="skill-item-note">Keyboard navigation, WCAG AA contrast, ARIA landmarks</span>
+              </div>
+
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">Modern Dev Tools</span>
+                  <span class="skill-item-level">Core Foundation</span>
+                </div>
+                <span class="skill-item-note">Browser devtools, responsive emulation, performance audit</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 2: Quantitative Research -->
+          <div class="skills-category-card reveal-on-scroll">
+            <div class="skills-category-header">
+              <span class="mono-label" style="color: var(--color-forest);">Domain 02</span>
+              <h3 class="skills-category-title">Quantitative Research &amp; Market Modeling</h3>
+              <p class="skills-category-desc">Formulating algorithmic trading signals and evaluating performance metrics on WorldQuant BRAIN.</p>
+            </div>
+
+            <div class="skills-items-grid">
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">Alpha Expressions</span>
+                  <span class="skill-item-level">Active Research</span>
+                </div>
+                <span class="skill-item-note">Cross-sectional ranking, mathematical operators, grouping</span>
+              </div>
+
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">Time-Series Signals</span>
+                  <span class="skill-item-level">Active Research</span>
+                </div>
+                <span class="skill-item-note">Price-volume divergence, linear decay, momentum tracking</span>
+              </div>
+
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">Backtesting Methodology</span>
+                  <span class="skill-item-level">Conceptually Grounded</span>
+                </div>
+                <span class="skill-item-note">In-sample vs out-of-sample rigor, lookahead bias prevention</span>
+              </div>
+
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">Performance Statistics</span>
+                  <span class="skill-item-level">Conceptually Grounded</span>
+                </div>
+                <span class="skill-item-note">Sharpe ratio, fitness score, margin, annualized returns</span>
+              </div>
+
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">Turnover &amp; Risk</span>
+                  <span class="skill-item-level">Conceptually Grounded</span>
+                </div>
+                <span class="skill-item-note">Portfolio turnover penalties, sub-universe constraints</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 3: Tools -->
+          <div class="skills-category-card reveal-on-scroll">
+            <div class="skills-category-header">
+              <span class="mono-label" style="color: var(--color-text-muted);">Domain 03</span>
+              <h3 class="skills-category-title">Developer Tooling &amp; Workflow</h3>
+              <p class="skills-category-desc">Modern version control, editors, and structured pair programming workflows.</p>
+            </div>
+
+            <div class="skills-items-grid">
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">Git Version Control</span>
+                  <span class="skill-item-level">Core Practice</span>
+                </div>
+                <span class="skill-item-note">Branching, atomic commits, staging, merge resolution</span>
+              </div>
+
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">GitHub</span>
+                  <span class="skill-item-level">Core Practice</span>
+                </div>
+                <span class="skill-item-note">Repositories, PR reviews, issue management, release tags</span>
+              </div>
+
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">Visual Studio Code</span>
+                  <span class="skill-item-level">Daily Driver</span>
+                </div>
+                <span class="skill-item-note">Workspace customization, formatting, terminal debugging</span>
+              </div>
+
+              <div class="skill-item-box">
+                <div class="skill-item-top">
+                  <span class="skill-item-name">AI-Assisted Development</span>
+                  <span class="skill-item-level">Daily Driver</span>
+                </div>
+                <span class="skill-item-note">Antigravity, prompt engineering, accelerated learning</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         LEARNING & EXPERIMENTS SECTION (CURRENTLY EXPLORING)
+         ======================================================================= -->
+    <section class="section section-bordered" id="exploring">
+      <div class="container">
+        
+        <div class="section-header with-meta">
+          <div>
+            <span class="section-kicker">04 // Continuous Learning</span>
+            <h2 class="section-title">Currently Exploring</h2>
+          </div>
+          <p class="body-muted" style="max-width: 440px;">
+            A living log of active research hypotheses, readings, and technical investigations. Easy to update as my studies progress.
+          </p>
+        </div>
+
+        <div class="exploring-grid">
+          
+          <div class="exploring-card reveal-on-scroll">
+            <div class="exploring-card-header">
+              <span class="exploring-tag">Quantitative Finance</span>
+              <span class="exploring-status-pill" style="color: var(--color-terracotta);">Running Backtests</span>
+            </div>
+            <h3 class="exploring-card-title">Cross-Sectional Momentum in Multi-Factor Alphas</h3>
+            <p class="exploring-card-desc">
+              Investigating how volume-weighted decay functions mitigate portfolio turnover while preserving information coefficient across US large-cap equity universes on WorldQuant BRAIN.
+            </p>
+            <div class="exploring-card-platform">WorldQuant BRAIN Platform</div>
+          </div>
+
+          <div class="exploring-card reveal-on-scroll">
+            <div class="exploring-card-header">
+              <span class="exploring-tag">Frontend Architecture</span>
+              <span class="exploring-status-pill" style="color: var(--color-forest);">Building Projects</span>
+            </div>
+            <h3 class="exploring-card-title">Component Architecture &amp; State Management</h3>
+            <p class="exploring-card-desc">
+              Deepening understanding of state lifecycle, custom web components, and smooth DOM transitions without the overhead of heavy framework bundles.
+            </p>
+            <div class="exploring-card-platform">Vanilla JavaScript &amp; Modern Web APIs</div>
+          </div>
+
+          <div class="exploring-card reveal-on-scroll">
+            <div class="exploring-card-header">
+              <span class="exploring-tag">Market Data Signals</span>
+              <span class="exploring-status-pill" style="color: var(--color-text-main);">Literature Review</span>
+            </div>
+            <h3 class="exploring-card-title">Statistical Signal Neutralization &amp; Factor Exposures</h3>
+            <p class="exploring-card-desc">
+              Studying market, sector, and industry neutralization techniques to isolate idiosyncratic equity alpha from macroeconomic and factor momentum trends.
+            </p>
+            <div class="exploring-card-platform">Financial Time-Series Analysis</div>
+          </div>
+
+          <div class="exploring-card reveal-on-scroll">
+            <div class="exploring-card-header">
+              <span class="exploring-tag">Design Systems</span>
+              <span class="exploring-status-pill" style="color: var(--color-forest);">Design Iteration</span>
+            </div>
+            <h3 class="exploring-card-title">Accessible Editorial Design &amp; Micro-Interactions</h3>
+            <p class="exploring-card-desc">
+              Exploring typography pairing (Fraunces serif with DM Sans and DM Mono), tactile color palettes, and refined micro-interactions that feel polished rather than distracting.
+            </p>
+            <div class="exploring-card-platform">CSS Architecture &amp; WCAG AA</div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         CONTACT SECTION
+         ======================================================================= -->
+    <section class="section section-bordered" id="contact">
+      <div class="container">
+        
+        <div class="section-header with-meta">
+          <div>
+            <span class="section-kicker">05 // Get In Touch</span>
+            <h2 class="section-title">Let's Connect &amp; Collaborate</h2>
+          </div>
+          <p class="body-muted" style="max-width: 420px;">
+            Open to student internships, research collaborations, and discussions with developers and quantitative analysts.
+          </p>
+        </div>
+
+        <div class="contact-layout">
+          
+          <!-- Contact Info & Direct Links -->
+          <div class="contact-info">
+            <p class="lead-text">
+              I am actively looking for internship opportunities and collaborative projects in frontend engineering and quantitative research.
+            </p>
+
+            <div class="contact-email-box">
+              <span class="mono-label" style="color: var(--color-terracotta);">Primary Email Contact</span>
+              <div class="contact-email-display">
+                <span id="contact-email-text" data-bind-email>anika.sharma.research@example.com</span>
+              </div>
+              <div class="contact-email-actions">
+                <button class="btn btn-primary btn-sm" data-copy-action data-copy-email data-copy-text="anika.sharma.research@example.com">
+                  Copy Email
+                </button>
+                <a href="mailto:anika.sharma.research@example.com" class="btn btn-secondary btn-sm" data-bind-email-link>
+                  Send Mail ↗
+                </a>
+              </div>
+              <p class="body-muted" style="font-size: 0.8125rem;">
+                * Easily update this placeholder anytime in <code>src/data/portfolioData.js</code>.
+              </p>
+            </div>
+
+            <div class="social-links-grid">
+              <a href="https://github.com/anikasharma" target="_blank" rel="noopener noreferrer" class="social-link-card">
+                <div>
+                  <div class="social-link-name">GitHub</div>
+                  <div class="social-link-note">github.com/anikasharma</div>
+                </div>
+                <span class="mono-label">↗</span>
+              </a>
+
+              <a href="https://linkedin.com/in/anikasharma" target="_blank" rel="noopener noreferrer" class="social-link-card">
+                <div>
+                  <div class="social-link-name">LinkedIn</div>
+                  <div class="social-link-note">linkedin.com/in/anikasharma</div>
+                </div>
+                <span class="mono-label">↗</span>
+              </a>
+
+              <a href="https://brain.worldquant.com" target="_blank" rel="noopener noreferrer" class="social-link-card">
+                <div>
+                  <div class="social-link-name">WorldQuant BRAIN</div>
+                  <div class="social-link-note">Research Profile &amp; Alphas</div>
+                </div>
+                <span class="mono-label">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Interactive Message Note Form -->
+          <div class="contact-form-card reveal-on-scroll">
+            <div>
+              <span class="section-kicker" style="margin-bottom: 0.25rem;">Direct Inquiry Note</span>
+              <h3 style="font-family: var(--font-serif); font-size: 1.25rem;">Send a Message</h3>
+            </div>
+
+            <form id="contact-form">
+              <div class="form-group">
+                <label class="form-label" for="contact-name">Your Name</label>
+                <input class="form-input" type="text" id="contact-name" name="name" placeholder="Alex Morgan" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="contact-email">Your Email</label>
+                <input class="form-input" type="email" id="contact-email" name="email" placeholder="alex@company.com" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="contact-subject">Topic / Subject</label>
+                <input class="form-input" type="text" id="contact-subject" name="subject" placeholder="Internship Opportunity / Quantitative Research">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="contact-message">Message</label>
+                <textarea class="form-textarea" id="contact-message" name="message" placeholder="Hi Anika, saw your work with WorldQuant BRAIN and frontend development..." required></textarea>
+              </div>
+
+              <div id="form-feedback" class="form-feedback"></div>
+
+              <button type="submit" class="btn btn-primary" style="margin-top: 0.5rem; width: 100%;">
+                Submit Inquiry Note
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#top" class="brand-logo" style="margin-bottom: 0.5rem;">Anika Sharma</a>
+          <p class="body-muted" style="font-size: 0.875rem;">
+            Building at the intersection of code, data &amp; markets. A student portfolio dedicated to craft, curiosity, and continuous learning.
+          </p>
+        </div>
+
+        <nav class="footer-links" aria-label="Footer Links">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#exploring">Exploring</a>
+          <a href="#contact">Contact</a>
+          <a href="https://github.com/anikasharma" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          <span>&copy; 2026 Anika Sharma. All rights reserved.</span>
+          <span style="margin: 0 0.5rem;">•</span>
+          <span>Set in Fraunces, DM Sans &amp; DM Mono.</span>
+        </div>
+
+        <button id="back-to-top-btn" class="back-to-top-btn" aria-label="Back to top of page">
+          Back to Top ↑
+        </button>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       TOAST NOTIFICATION (Copy feedback)
+       ========================================================================= -->
+  <div class="toast-container" aria-live="polite">
+    <div id="toast-notification" class="toast" role="status">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="#6FCF97">
+        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+      </svg>
+      <span id="toast-message">Copied to clipboard!</span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       PROJECT DEEP-DIVE MODAL
+       ========================================================================= -->
+  <div id="project-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <span id="modal-project-badge" class="tag-pill accent-forest" style="margin-bottom: 4px; display:inline-block;">Project Deep Dive</span>
+          <h3 id="modal-project-title" class="modal-title">Project Title</h3>
+        </div>
+        <button id="modal-close-btn" class="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+      <div id="modal-project-content" class="modal-body">
+        <!-- Injected via JavaScript -->
+      </div>
+      <div style="padding: 1rem 1.5rem; background: var(--color-bg-card); border-top: 1px solid var(--border-subtle); display:flex; justify-content:flex-end;">
+        <button id="modal-footer-close-btn" class="btn btn-secondary btn-sm">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts: Universal compatibility for file:// and http:// -->
+  <script src="./src/data/portfolioData.js"></script>
+  <script src="./src/main.js"></script>
+</body>
+</html>
+
